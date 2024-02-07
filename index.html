@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop Game</title>
+    <style>
+                        /* ▌▌и измени для autoplay 
+      #f {color: red;}                               */
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+                                      /* Iframe */
+      iframe {
+        overflow: auto;
+        width: 99vw;
+        height: 80vh;
+      }
+      body {
+        background-color: #3aafa9;
+        font-family: cursive;
+      }
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+                                            /* buttons */
+      button:hover {background-color: #567;}
+      button {
+        margin: auto;
+        cursor: pointer;
+        display: block;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        background-color: #607d8b;
+        color: #fff;
+      }
+      div button.play{
+        height: 40px;
+        width: 40px;
+      }
+      div button.p{
+        font-size: 30px;
+        padding-right: 0;
+      }
+    </style>
+  </head>
+  <body>
+                                        <!-- /*      PLAYER       */ -->
+    <div style="display: inline-flex;">
+    <button class="play active" id="1">&#9612;&#9612;</button>
+    <audio id="sound1" autoplay loop preload>
+        <source src="https://cdn.discordapp.com/attachments/734158138546061454/1201272338331730000/004.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>	
+    
+    <button style="background-color: transparent;" class="p">&#128266;</button> 
+    <input type="range" min="0" max="100" step="1" onchange="setVolume(1, this.value)" />
+    </div>
+                                        <!-- /*      PLAYER       */ -->
+
+    <div>                                 
+        <iframe scrolling="no" src="./game1.html" frameborder="0"></iframe>
+    </div> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $('.play').click((e) => {
+        var _this = e.target;
+        var id = _this.id;
+        $(_this).toggleClass('active');
+        if ($(_this).hasClass('active')) {
+          $(_this).text('▌▌');
+          document.getElementById(`sound${id}`).play();
+        } else {
+          $(_this).text('\u25B6');
+          document.getElementById(`sound${id}`).pause();
+        }
+      })
+      function setVolume(id, value) {
+        var audio = document.getElementById(`sound${id}`);
+        audio.volume = value / 100;
+      };
+    </script>
+  </body>
+</html>

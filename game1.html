@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drag and Drop Game</title>
+  <style>
+    .container {
+      max-width: 960px;
+      margin: auto;
+    }
+    body {
+      background-color: #3aafa9;
+      font-family: math;
+    }
+    main {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 5px;
+    }
+    h1,h3,p {text-align: center;}
+    .draggable-list {padding: 5px;}
+    li {
+      list-style: none;
+      padding: 10px;
+      margin: 5px;
+      background-color: #2b7a78;
+      border: 1px solid #def2f1;
+      color: #feffff;
+      cursor: grab;
+    }
+    .over {
+      background-color: #90a4ae;
+    }
+    table {
+      max-width: 640px;
+      margin: auto;
+      margin-bottom: 20px;
+      background-color: #cfd8dc;
+    }
+    td:nth-child(odd) {
+      text-align: right;
+    }
+    th,td {padding: 10px 10px;}
+    td {border: 1px solid #90a4ae;}
+    tr {background-color: #cfd8dc;}
+    a {text-decoration: none;}
+    button:hover {background-color: #567;}
+    button {
+      margin: auto;
+      cursor: pointer;
+      display: block;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: #607d8b;
+      color: #fff;
+    }
+    #endMessage {display: none;}
+    #endMessage {color: #000;}
+  </style>
+</head>
+<body>
+
+<h1>HTML Matching Game</h1>
+<p>Drag the HTML tag over to the matching description</p>
+<p>The initial number of points is 0. Each correct answer is worth +1 point. Each wrong answer is worth -1 point. Points can become negative.</p>
+<main class="container">
+  <div>
+    <ul class="draggable-list">
+      <li id="e1" draggable="true">&lt;button&gt;  </li>
+      <li id="e2" draggable="true">&lt;!DOCTYPE&gt;</li>
+      <li id="e3" draggable="true">&lt;p&gt;      </li>
+      <li id="e4" draggable="true">&lt;img&gt;    </li>
+      <li id="e5" draggable="true">&lt;a&gt;      </li>
+    </ul>
+  </div>
+  <div>
+    <ul class="draggable-list">
+      <li id="s2" draggable="true">defines the document type</li>
+      <li id="s5" draggable="true">defines a hyperlink</li>
+      <li id="s1" draggable="true">defines a clickable button</li>
+      <li id="s3" draggable="true">defines a paragraph</li>
+      <li id="s4" draggable="true">defines an image</li>
+    </ul>
+  </div>
+</main>
+
+<div id="endMessage">
+  <h3>Level 1 completed!</h3>
+  <table>
+    <tr>
+      <th>TAG</th>
+      <th>DESCRIPTION</th>
+    </tr>
+    <tr>
+      <td>button</td>
+      <td>defines a clickable button</td>
+    </tr>
+    <tr>
+      <td>!DOCTYPE</td>
+      <td>defines the document type</td>
+    </tr>
+    <tr>
+      <td>p</td>
+      <td>defines a paragraph</td>
+    </tr>
+    <tr>
+      <td>img</td>
+      <td>defines a paragraph</td>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>defines an image</td>
+    </tr>
+  </table>
+  <!-- <button onclick="playAgain()">Play Again</button> -->
+  
+  <a href="game2.html">
+    <button style="margin-top: 10px;">Next Level</button>
+  </a>
+</div>
+
+<script>
+  const draggableListItems = document.querySelectorAll(".draggable-list li");
+  const endMessage = document.getElementById("endMessage");
+  let selectedId;
+  let dropTargetId;
+  let matchingCounter = 0;
+  let score = 0;
+
+  addEventListeners();
+
+  function dragStart() {
+    selectedId = this.id;
+  }
+
+  function dragEnter() {
+    this.classList.add("over");
+  }
+
+  function dragLeave() {
+    this.classList.remove("over");
+  }
+
+  function dragOver(ev) {
+    ev.preventDefault();
+  }
+
+function dragDrop() {
+  dropTargetId = this.id;
+  if (checkForMatch(selectedId, dropTargetId)) {
+    document.getElementById(selectedId).style.display = "none";
+    document.getElementById(dropTargetId).style.display = "none";
+    matchingCounter++;
+    score += 1;
+  } else if (checkForMatch2(selectedId, dropTargetId)) {
+    document.getElementById(selectedId).style.display = "none";
+    document.getElementById(dropTargetId).style.display = "none";
+    matchingCounter++;
+    score += 1;
+  } else {
+    
+    score -= 1;
+  }
+  if (matchingCounter === 5) {
+    endMessage.style.display = "block";
+    displayScore();
+  }
+  this.classList.remove("over");
+}
+
+
+
+
+  function checkForMatch(selected, dropTarget) {
+    switch (selected) {
+      case "e1": return dropTarget === "s1" ? true : false;
+      case "e2": return dropTarget === "s2" ? true : false;
+      case "e3": return dropTarget === "s3" ? true : false;
+      case "e4": return dropTarget === "s4" ? true : false;
+      case "e5": return dropTarget === "s5" ? true : false;
+      default: return false;
+    }
+  }
+
+  function checkForMatch2(selected, dropTarget) {
+    switch (selected) {
+      case "s1": return dropTarget === "e1" ? true : false;
+      case "s2": return dropTarget === "e2" ? true : false;
+      case "s3": return dropTarget === "e3" ? true : false;
+      case "s4": return dropTarget === "e4" ? true : false;
+      case "s5": return dropTarget === "e5" ? true : false;
+      default: return false;
+    }
+  }
+
+  function playAgain() {
+    matchingCounter = 0;
+    score = 0;
+    endMessage.style.display = "none";
+    endMessage.removeChild(endMessage.lastChild);
+    draggableListItems.forEach((item) => {
+      document.getElementById(item.id).style.display = "block";
+    });
+  }
+
+  function addEventListeners() {
+    draggableListItems.forEach((item) => {
+      item.addEventListener("dragstart", dragStart);
+      item.addEventListener("dragenter", dragEnter);
+      item.addEventListener("drop", dragDrop);
+      item.addEventListener("dragover", dragOver);
+      item.addEventListener("dragleave", dragLeave);
+    });
+  }
+
+  function displayScore() {
+    const scoreMessage = document.createElement("p");
+    scoreMessage.textContent = `Your Score: ${score}`;
+    endMessage.appendChild(scoreMessage);
+  }
+</script>
+</body>
+</html>
