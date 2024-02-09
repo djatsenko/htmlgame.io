@@ -1,2 +1,2 @@
 # htmlgame.io
-Drag and Drop api game 
+Drag and Drop (api) game 
